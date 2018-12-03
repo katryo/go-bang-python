@@ -1,3 +1,6 @@
+from itertools import repeat
+
+
 INVALID = 0
 NOT_END = 1
 END = 2
@@ -5,11 +8,6 @@ TIE = 3
 
 PLAYER_O = 0
 PLAYER_X = 1
-
-
-def generator(value):
-    while True:
-        yield value
 
 
 class Game:
@@ -32,8 +30,8 @@ class Game:
 
     def _vertical_is_end(self, target, row, col):
         count = -1
-        count += self._continuous(target, range(row, row+self.win_if_size), generator(col))
-        count += self._continuous(target, range(row, row-self.win_if_size, -1), generator(col))
+        count += self._continuous(target, range(row, row+self.win_if_size), repeat(col))
+        count += self._continuous(target, range(row, row-self.win_if_size, -1), repeat(col))
         return count >= self.win_if_size
 
     def _is_out_board(self, row, col):
@@ -52,8 +50,8 @@ class Game:
 
     def _horizontal_is_end(self, target, row, col):
         count = -1
-        count += self._continuous(target, generator(row), range(col, col+self.win_if_size))
-        count += self._continuous(target, generator(row), range(col, col-self.win_if_size, -1))
+        count += self._continuous(target, repeat(row), range(col, col+self.win_if_size))
+        count += self._continuous(target, repeat(row), range(col, col-self.win_if_size, -1))
         return count >= self.win_if_size
 
     def is_end_move(self, row, col):
